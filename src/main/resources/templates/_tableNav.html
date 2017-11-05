@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div th:fragment="tableNav">
+    <ul class="pagination pull-right">
+        <li><a>共<span th:text="${pageInfo.total}" class="red">1</span>条</a></li>
+
+        <li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+            <a href="javascript:void(0)" th:onclick="${!pageInfo.isFirstPage} ? 'doSearch(1);'">首页</a>
+        </li>
+
+        <li th:class="${pageInfo.isFirstPage} ? 'disabled'">
+            <a href="javascript:void(0)"
+               th:onclick="${!pageInfo.isFirstPage} ? 'doSearch(' + ${pageInfo.prePage} + ');'">上页</a>
+        </li>
+
+        <li th:each="page : ${pageInfo.navigatepageNums}"
+            th:class="${page == pageInfo.pageNum} ? 'active'">
+            <a href="javascript:void(0)" th:text="${page}"
+               th:onclick="'doSearch(' + ${page} + ');'"></a>
+        </li>
+
+        <li th:class="${pageInfo.isLastPage} ? 'disabled'">
+            <a href="javascript:void(0)"
+               th:onclick="${!pageInfo.isLastPage} ? 'doSearch(' + ${pageInfo.nextPage} + ');'">下页</a>
+        </li>
+
+        <li th:class="${pageInfo.isLastPage} ? 'disabled'">
+            <a href="javascript:void(0)"
+               th:onclick="${!pageInfo.isLastPage} ? 'doSearch(' + ${pageInfo.pages} + ');'">尾页</a>
+        </li>
+
+        <li><a th:text="'共' + ${pageInfo.pages} + '页'">共1页</a></li>
+
+        <li><input type="number" class="input change-page-num" style="width:100px; margin: 0px;"
+                   th:value="${pageInfo.pageNum}"/></li>
+        <li>
+            <button class="btn btn-info" type="button"
+                    th:onclick="'doSearch($(\'.change-page-num\').val())'">
+                跳转
+            </button>
+        </li>
+        <!--<li>
+            <select title="显示条数" class="input-lg" style="width:60px;"
+                    onchange="changePageSize('good_form', this.value);">
+                <option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+                        th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+            </select>
+        </li>-->
+    </ul>
+</div>
+</body>
+</html>
